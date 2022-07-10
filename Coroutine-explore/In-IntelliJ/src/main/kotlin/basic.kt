@@ -44,13 +44,13 @@ fun usingCoroutineScope() = runBlocking {
 }
 
 fun testScope() = runBlocking {
-    launch{
+    launch {
         delay(200L)
         println("Task from runBlocking")
     }
 
-    coroutineScope{
-        launch{
+    coroutineScope {
+        launch {
             delay(500L)
             println("Task from nested launch")
         }
@@ -61,30 +61,47 @@ fun testScope() = runBlocking {
 }
 
 fun testScope2() = runBlocking {
-    runBlocking{
-        delay(200L)
-        println("Task from runBlocking")
-    }
-
-    coroutineScope{
-        launch{
+    coroutineScope {
+        launch {
             delay(500L)
             println("Task from nested launch")
         }
         delay(100L)
         println("Task from coroutine scope")
     }
+
+    launch {
+        delay(200L)
+        println("Task from runBlocking")
+    }
+
     println("Coroutine scope is over")
 }
 
-suspend fun doWorld(){
+suspend fun doWorld() {
     delay(1000L)
     println("World!")
 }
 
-fun main() = runBlocking {
-    launch {
-        doWorld()
+fun test() = runBlocking {
+    coroutineScope {
+        launch {
+            delay(500L)
+            println("Task from nested launch")
+        }
+        delay(100L)
+        println("Task from coroutine scope")
     }
-    println("Hello")
+
+    val job = GlobalScope.launch {
+        delay(200L)
+        println("Task from runBlocking")
+    }
+
+    println("Coroutine scope is over")
+    job.join()
+}
+
+fun main() {
+    test()
 }
