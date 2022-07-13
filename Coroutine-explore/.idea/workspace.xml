@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4cb250d2-2bc0-4d5d-ada3-75182698cf2d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/intellij/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/intellij/settings.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/intellij/src/main/kotlin/basic.kt" beforeDir="false" afterPath="$PROJECT_DIR$/intellij/src/main/kotlin/basic.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/In-IntelliJ/src/main/kotlin/CancellationAndTimeouts.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +37,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/intellij" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/In-IntelliJ" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
