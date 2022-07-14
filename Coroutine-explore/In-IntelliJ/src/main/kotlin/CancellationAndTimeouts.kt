@@ -1,6 +1,7 @@
 import kotlinx.coroutines.*
+import java.io.Closeable
 
-fun cancel() = runBlocking{
+fun cancel() = runBlocking {
     val job = launch {
         repeat(1000) { i ->
             println("job: I'm sleeping $i ...")
@@ -104,6 +105,91 @@ fun makeCancel2() = runBlocking {
     println("main: Now I can quit.")
 }
 
-fun main(args: Array<String>){
-    makeCancel2()
+fun useFinally() = runBlocking {
+    val job = launch {
+        try {
+            repeat(1000) { i ->
+                println("job: I'm sleeping $i ...")
+                delay(500L)
+            }
+        } finally {
+            println("job: I'm running finally")
+        }
+    }
+    delay(1300L) // delay a bit
+    println("main: I'm tired of waiting!")
+    job.cancelAndJoin() // cancels the job and waits for its completion
+    println("main: Now I can quit.")
+}
+
+class SleepingBed : Closeable {
+
+    suspend fun sleep(times: Int) {
+        repeat(times) { i ->
+            println("I'm sleeping $i ...")
+            delay(500L)
+        }
+    }
+
+    override fun close() {
+        println("job : I'm running close() in SleepingBed!")
+    }
+}
+
+fun useKotlinUse() = runBlocking {
+    val job = launch {
+        SleepingBed().use {
+            it.sleep(1000)
+        }
+    }
+
+    delay(1300L)
+    println("main : I'm tired of waiting!")
+    job.cancelAndJoin()
+    println("main : Now I can quit.")
+}
+
+fun nonCancellable() = runBlocking {
+    val job = launch {
+        try {
+            repeat(1000) { i ->
+                println("job: I'm sleeping $i ...")
+                delay(500L)
+            }
+        } finally {
+            withContext(NonCancellable) {
+                println("job: I'm running finally")
+                delay(1000L)
+                println("job: And I've just delayed for 1 sec because I'm non-cancellable")
+            }
+        }
+    }
+    delay(1300L) // delay a bit
+    println("main: I'm tired of waiting!")
+    job.cancelAndJoin() // cancels the job and waits for its completion
+    println("main: Now I can quit.")
+}
+
+fun timeOut() = runBlocking {
+    withTimeout(1300L) {
+        repeat(1000) { i ->
+            println("I'm sleeping $i ...")
+            delay(500L)
+        }
+    }
+}
+
+fun timeOutOrNull() = runBlocking {
+    val result = withTimeoutOrNull(1300L) {
+        repeat(1000) { i ->
+            println("I'm sleeping $i ...")
+            delay(500L)
+        }
+        "Done" // will get cancelled before it produces this result
+    }
+    println("Result is $result")
+}
+
+fun main(args: Array<String>) {
+    timeOutOrNull()
 }
