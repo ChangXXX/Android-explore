@@ -191,5 +191,5 @@ fun timeOutOrNull() = runBlocking {
 }
 
 fun main(args: Array<String>) {
-    timeOutOrNull()
+    cantCancel()
 }
