@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4cb250d2-2bc0-4d5d-ada3-75182698cf2d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/In-IntelliJ/src/main/kotlin/CancellationAndTimeouts.kt" afterDir="false" />
-    </list>
+    <list default="true" id="4cb250d2-2bc0-4d5d-ada3-75182698cf2d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
