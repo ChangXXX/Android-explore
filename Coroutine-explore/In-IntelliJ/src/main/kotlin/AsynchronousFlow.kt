@@ -1,5 +1,6 @@
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import java.lang.RuntimeException
 import kotlin.system.measureTimeMillis
 
 fun simple(): List<Int> = listOf(1, 2, 3)
@@ -60,7 +61,7 @@ suspend fun performRequest(request: Int): String {
     return "response $request"
 }
 
-fun mappingFlow() = runBlocking{
+fun mappingFlow() = runBlocking {
     (1..3).asFlow() // a flow of requests
         .map { request -> performRequest(request) }
         .collect { response -> println(response) }
@@ -86,7 +87,7 @@ fun numbers(): Flow<Int> = flow {
     }
 }
 
-fun takeNumbers() = runBlocking{
+fun takeNumbers() = runBlocking {
     numbers()
         .take(2) // take only the first two
         .collect { value -> println(value) }
@@ -113,7 +114,7 @@ fun sequentialFlow() = runBlocking {
         }
 }
 
-fun contextSimple(): Flow<Int> = flow{
+fun contextSimple(): Flow<Int> = flow {
     log("Started simple flow")
     for (i in 1..3) {
         emit(i)
@@ -124,7 +125,7 @@ fun contextFlow() = runBlocking<Unit> {
     contextSimple().collect { value -> log("Collected $value") }
 }
 
-fun wrongSimple() : Flow<Int> = flow {
+fun wrongSimple(): Flow<Int> = flow {
     // The WRONG way to change context for CPU-consuming code in flow builder
     kotlinx.coroutines.withContext(Dispatchers.Default) {
         for (i in 1..3) {
@@ -134,7 +135,7 @@ fun wrongSimple() : Flow<Int> = flow {
     }
 }
 
-fun wrongChangeContext() = runBlocking{
+fun wrongChangeContext() = runBlocking {
     wrongSimple().collect { value -> println(value) }
 }
 
@@ -178,7 +179,7 @@ fun runBuffering() = runBlocking<Unit> {
     println("Collected in $time ms")
 }
 
-fun conflation() = runBlocking{
+fun conflation() = runBlocking {
     val time = measureTimeMillis {
         bufferingSimple()
             .conflate() // conflate emissions, don't process each one
@@ -202,7 +203,7 @@ fun xxxLatest() = runBlocking {
     println("Collected in $time ms")
 }
 
-fun zipFlows() = runBlocking{
+fun zipFlows() = runBlocking {
     val nums = (1..3).asFlow() // numbers 1..3
     val strs = flowOf("one", "two", "three") // strings
     nums.zip(strs) { a, b -> "$a -> $b" } // compose a single string
@@ -239,6 +240,163 @@ fun testFlatten() = runBlocking {
     val a = (1..3).asFlow().map { requestFlow(it) }
 }
 
+fun flatConcat() = runBlocking {
+    val startTime = System.currentTimeMillis() // remember the start time
+    (1..3).asFlow().onEach { delay(100) } // a number every 100 ms
+        .flatMapConcat { requestFlow(it) }
+        .collect { value -> // collect and print
+            println("$value at ${System.currentTimeMillis() - startTime} ms from start")
+        }
+}
+
+fun flatMerge() = runBlocking {
+    val startTime = System.currentTimeMillis() // remember the start time
+    (1..3).asFlow().onEach { delay(100) } // a number every 100 ms
+        .flatMapMerge { requestFlow(it) }
+        .collect { value -> // collect and print
+            println("$value at ${System.currentTimeMillis() - startTime} ms from start")
+        }
+}
+
+fun flatLatest() = runBlocking {
+    val startTime = System.currentTimeMillis() // remember the start time
+    (1..3).asFlow().onEach { delay(100) } // a number every 100 ms
+        .flatMapLatest { requestFlow(it) }
+        .collect { value -> // collect and print
+            println("$value at ${System.currentTimeMillis() - startTime} ms from start")
+        }
+}
+
+fun emitOneToThree(): Flow<Int> = flow {
+    for (i in 1..3) {
+        println("Emitting $i")
+        emit(i) // emit next value
+    }
+}
+
+fun collectorTryAndCatch() = runBlocking {
+    try {
+        emitOneToThree().collect { value ->
+            println(value)
+            check(value <= 1) { "Collected $value" }
+        }
+    } catch (e: Throwable) {
+        println("Caught $e")
+    }
+}
+
+fun emitOneToThreeString(): Flow<String> =
+    flow {
+        for (i in 1..3) {
+            println("Emitting $i")
+            emit(i) // emit next value
+        }
+    }
+        .map { value ->
+            check(value <= 1) { "Crashed on $value" }
+            "string $value"
+        }
+
+fun everythingIsCaught() = runBlocking {
+    try {
+        emitOneToThreeString().collect { value -> println(value) }
+    } catch (e: Throwable) {
+        println("Caught $e")
+    }
+}
+
+fun transparent() = runBlocking {
+    emitOneToThreeString()
+        .catch { e -> emit("Caught $e") } // emit on exception
+        .collect { value -> println(value) }
+}
+
+fun transparentCatch() = runBlocking {
+    emitOneToThree()
+        .catch { e -> println("Caught $e") } // does not catch downstream exceptions
+        .collect { value ->
+            check(value <= 1) { "Collected $value" }
+            println(value)
+        }
+}
+
+fun catchingDeclaratively() = runBlocking {
+    emitOneToThree()
+        .onEach { value ->
+            check(value <= 1) { "Collected $value" }
+            println(value)
+        }
+        .catch { e -> println("Caught $e") }
+        .collect()
+}
+
+fun imperativeFinally() = runBlocking {
+    try {
+        emitOneToThree().collect { value -> println(value) }
+    } finally {
+        println("Done")
+    }
+}
+
+fun declarativeHandling() = runBlocking {
+    emitOneToThree()
+        .onCompletion { println("Done") }
+        .collect { value -> println(value) }
+}
+
+fun throwSimple(): Flow<Int> = flow {
+    emit(1)
+    throw RuntimeException()
+}
+
+fun declarativeHandlingError() = runBlocking {
+    throwSimple()
+        .onCompletion { cause -> if (cause != null) println("Flow completed exceptionally") }
+        .catch { cause -> println("Caught exception") }
+        .collect { value -> println(value) }
+}
+
+fun normSimple(): Flow<Int> = (1..3).asFlow()
+
+fun successfulCompletion() = runBlocking {
+    normSimple()
+        .onCompletion { cause -> println("Flow completed with $cause") }
+        .collect { value ->
+            check(value <= 1) { "Collected $value" }
+            println(value)
+        }
+}
+
+fun events(): Flow<Int> = (1..3).asFlow().onEach { delay(100) }
+
+fun collectingFlow() = runBlocking {
+    events()
+        .onEach { event -> println("Event: $event") }
+        .collect()
+    println("Done")
+}
+
+fun launchInFlow() = runBlocking {
+    events()
+        .onEach { event -> println("Event: $event") }
+        .launchIn(this) // <--- Launching the flow in a separate coroutine
+    println("Done")
+}
+
+fun foo(): Flow<Int> = flow {
+    for (i in 1..5) {
+        println("Emitting $i")
+        emit(i)
+    }
+}
+
+fun flowCancellationCheck() = runBlocking {
+    foo().collect { value ->
+        if (value == 3) cancel()
+        println(value)
+    }
+}
+
 fun main() {
-    testFlatten()
+    flowCancellationCheck()
 }
