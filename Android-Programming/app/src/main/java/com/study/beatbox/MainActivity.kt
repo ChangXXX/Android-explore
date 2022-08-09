@@ -40,11 +40,30 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: SoundHolder, position: Int) {
+            val sound = sounds[position]
+            holder.bind(sound)
         }
 
         override fun getItemCount(): Int = sounds.size
     }
 
     private inner class SoundHolder(private val binding: ListItemSoundBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.viewModel = SoundViewModel()
+        }
+
+        fun bind(sound: Sound) {
+            binding.apply {
+                viewModel?.sound = sound
+                /**
+                 * 보통은 executePendingBindings()를 호출하지 않아도 된다.
+                 * 그럼 왜 호출하냐?
+                 * 빠른 속도로 뷰를 변경 -> 레이아웃을 즉각 변경하기 위해
+                 */
+                executePendingBindings()
+            }
+        }
+    }
 }
