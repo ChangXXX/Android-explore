@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Room</string>
+    <string name="folder_tb_tv_title">Folder</string>
+    <string name="folder_add_tb_tv_title">Folder Add</string>
+    <string name="file_tb_tv_title">File</string>
+    <string name="folder_add_new_title">Folder Title</string>
+    <string name="folder_add_btn_create">Create</string>
+    <string name="file_new_file_name">New File Name</string>
 </resources>
