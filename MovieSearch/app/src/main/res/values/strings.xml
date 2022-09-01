@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">MovieSearch</string>
+    <string name="search_btn_search">검색</string>
+    <string name="search_btn_search_log">최근검색</string>
+    <string name="search_edt_search_hint">영화 제목</string>
+    <string name="item_movie_title">제목 : </string>
+    <string name="item_movie_release">출시 : </string>
+    <string name="item_movie_rating">평점 : </string>
+    <string name="log_tv_recent">최근 검색 이력</string>
 </resources>
