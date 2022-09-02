@@ -9,10 +9,19 @@
         android:id="@+id/navigation_search"
         android:name="com.study.moviesearch.ui.search.SearchFragment"
         tools:layout="@layout/fragment_search">
+        <argument
+            android:name="log"
+            android:defaultValue="" />
 
         <action
             android:id="@+id/action_search_to_movie"
-            app:destination="@id/navigation_movie" />
+            app:destination="@id/navigation_movie"
+            app:popUpTo="@id/navigation_search" />
+
+        <action
+            android:id="@+id/action_search_to_log"
+            app:destination="@id/navigation_log"
+            app:popUpTo="@id/navigation_search" />
 
     </fragment>
 
@@ -21,6 +30,19 @@
         android:name="com.study.moviesearch.ui.movie.MovieFragment"
         tools:layout="@layout/fragment_movie">
         <argument android:name="link" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_log"
+        android:name="com.study.moviesearch.ui.log.LogFragment"
+        tools:layout="@layout/fragment_log">
+
+        <action
+            android:id="@+id/action_log_to_search"
+            app:destination="@id/navigation_search"
+            app:popUpTo="@id/navigation_search"
+            app:popUpToInclusive="true" />
 
     </fragment>
 

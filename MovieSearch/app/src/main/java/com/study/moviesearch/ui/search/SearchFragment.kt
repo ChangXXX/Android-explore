@@ -17,6 +17,7 @@ import com.study.moviesearch.utils.extensions.repeatOnStarted
 import com.study.moviesearch.utils.extensions.show
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.*
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(), MovieClickListener {
@@ -49,6 +50,12 @@ class SearchFragment : Fragment(), MovieClickListener {
                 }
             }
         }
+
+        val log = SearchFragmentArgs.fromBundle(requireArguments()).log
+        if (log.isNotEmpty()) {
+            binding.edtSearch.setText(log)
+            vm.getMovies(log)
+        }
     }
 
     private fun initAdapter() {
@@ -60,21 +67,21 @@ class SearchFragment : Fragment(), MovieClickListener {
                 vm.movieStateFlow.collect { uiState ->
                     when (uiState) {
                         is UiState.Loading -> {
-                            binding.progressBar.show()
+                            binding.progressBarSearch.show()
                         }
                         is UiState.Success -> {
                             adapter.submitList(uiState.data)
-                            binding.progressBar.hide(true)
+                            binding.progressBarSearch.hide(true)
                         }
                         is UiState.Error -> {
                             Toast.makeText(context, "${uiState.error} 오류 발생", Toast.LENGTH_SHORT)
                                 .show()
-                            binding.progressBar.hide(true)
+                            binding.progressBarSearch.hide(true)
                         }
                         is UiState.Empty -> {
                             Toast.makeText(context, "영화를 검색해주세요", Toast.LENGTH_SHORT)
                                 .show()
-                            binding.progressBar.hide(true)
+                            binding.progressBarSearch.hide(true)
                         }
                     }
                 }
@@ -84,11 +91,16 @@ class SearchFragment : Fragment(), MovieClickListener {
 
     private fun handleEvent(event: Event) = when (event) {
         is Event.SearchEvent -> {
-            if (binding.edtSearch.text.toString().isNotEmpty()) {
+            if (binding.edtSearch.text.isNotEmpty()) {
                 vm.getMovies(binding.edtSearch.text.toString())
             } else Toast.makeText(context, "검색할 내용이 없습니다.", Toast.LENGTH_SHORT).show()
         }
         is Event.LogEvent -> {
+            val direction = SearchFragmentDirections
+            findNavController().currentDestination?.getAction(direction.actionSearchToLog().actionId)
+                ?.run {
+                    findNavController().navigate(direction.actionSearchToLog())
+                }
         }
     }
 
@@ -99,7 +111,10 @@ class SearchFragment : Fragment(), MovieClickListener {
     }
 
     override fun onMovieOpenEvent(link: String) {
-        val action = SearchFragmentDirections.actionSearchToMovie(link)
-        findNavController().navigate(action)
+        val direction = SearchFragmentDirections
+        findNavController().currentDestination?.getAction(direction.actionSearchToMovie(link).actionId)
+            ?.run {
+                findNavController().navigate(direction.actionSearchToMovie(link))
+            }
     }
 }

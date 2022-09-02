@@ -7,10 +7,11 @@
 
         <variable
             name="log"
-            type="String" />
+            type="com.study.moviesearch.data.log.db.LogEntity" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_log_movie"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_margin="10dp"
@@ -25,7 +26,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:padding="10dp"
-            android:text="@{log}"
+            android:text="@{log.searchName}"
             android:textColor="@color/black"
             android:textStyle="bold"
             tools:text="헌트" />

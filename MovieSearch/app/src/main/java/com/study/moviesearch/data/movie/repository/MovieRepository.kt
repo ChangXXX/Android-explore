@@ -1,4 +1,4 @@
-package com.study.moviesearch.data.movie.db
+package com.study.moviesearch.data.movie.repository
 
 import com.study.moviesearch.data.movie.data.Movie
 
