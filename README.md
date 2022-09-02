@@ -7,4 +7,4 @@ Android 기술 적용 실험실
 
 ## [Room-explore](https://github.com/ChangXXX/Android-explore/tree/main/Room-explore) - Local DB 이것저것 시도해보는 공간
 
-## [MovieSearch](https://github.com/ChangXXX/Android-explore/tree/main/MovieSearch) - 네이버 API 
+## [MovieSearch](https://github.com/ChangXXX/Android-explore/tree/main/MovieSearch) - 네이버 API 영화 검색
