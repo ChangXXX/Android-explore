@@ -23,7 +23,6 @@ class LogViewModel @Inject constructor(
     /**
      * log 데이터 갱신
      * @return 성공 : uiState 에 List<Log> 전달
-     * @return 오류 : uiState 에 exception 전달
      */
     fun getLogs() {
         viewModelScope.launch {
