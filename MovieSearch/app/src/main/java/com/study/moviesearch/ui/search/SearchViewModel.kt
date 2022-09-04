@@ -58,7 +58,7 @@ class SearchViewModel @Inject constructor(
                     }
 
                     val currTime = System.currentTimeMillis()
-                    val dateFormat = SimpleDateFormat("yy.mm.dd.hh.mm.ss", Locale.KOREA)
+                    val dateFormat = SimpleDateFormat("yy.MM.dd.hh.mm.ss", Locale.KOREA)
                     logRepository.saveLog(
                         LogEntity(
                             searchName = title,
