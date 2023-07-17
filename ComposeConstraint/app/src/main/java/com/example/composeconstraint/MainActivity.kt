@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.composeconstraint.ui.theme.ComposeConstraintTheme
+import com.example.composeconstraint.ui.theme.components.canvas.CanvasEx
 import com.example.composeconstraint.ui.theme.components.card.CardEx
 import com.example.composeconstraint.ui.theme.components.constraintlayoutex.ConstraintLayoutEx
 
@@ -47,6 +48,7 @@ class MainActivity : ComponentActivity() {
                             "글의 내용인데 이게 길면 어떻게 되나 보려고 길게 한번 써보고 있어요, 글의 내용인데 이게 길면 어떻게 되나 보려고 길게 한번 써보고 있어요",
                         ),
                     )
+                    CanvasEx()
                 }
             }
         }
@@ -66,5 +68,6 @@ fun DefaultPreview() {
                 "글의 내용인데 이게 길면 어떻게 되나 보려고 길게 한번 써보고 있어요, 글의 내용인데 이게 길면 어떻게 되나 보려고 길게 한번 써보고 있어요",
             ),
         )
+        CanvasEx()
     }
 }
