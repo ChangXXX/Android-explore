@@ -17,6 +17,7 @@ import com.example.composeconstraint.ui.theme.components.card.CardEx
 import com.example.composeconstraint.ui.theme.components.constraintlayoutex.ConstraintLayoutEx
 import com.example.composeconstraint.ui.theme.components.customdialog.CustomDialog
 import com.example.composeconstraint.ui.theme.components.dialog.DialogEx
+import com.example.composeconstraint.ui.theme.components.dropdown.DropDownEx
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +54,7 @@ class MainActivity : ComponentActivity() {
                     CanvasEx()
                     DialogEx()
                     CustomDialog()
+                    DropDownEx()
                 }
             }
         }
@@ -75,5 +77,6 @@ fun DefaultPreview() {
         CanvasEx()
         DialogEx()
         CustomDialog()
+        DropDownEx()
     }
 }
