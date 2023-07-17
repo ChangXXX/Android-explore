@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composeconstraint.ui.theme.ComposeConstraintTheme
+import com.example.composeconstraint.ui.theme.components.animation.AnimationEx
 import com.example.composeconstraint.ui.theme.components.canvas.CanvasEx
 import com.example.composeconstraint.ui.theme.components.card.CardEx
 import com.example.composeconstraint.ui.theme.components.constraintlayoutex.ConstraintLayoutEx
@@ -143,6 +144,7 @@ class MainActivity : ComponentActivity() {
                             pyeong = it
                             squareMeter = (numeric * 3.306).toString()
                         }
+                        AnimationEx()
                     }
                 }
             }
@@ -168,5 +170,6 @@ fun DefaultPreview() {
         CustomDialog()
         DropDownEx()
         RoomEx("23", "${23 * 3.306}", {})
+        AnimationEx()
     }
 }
