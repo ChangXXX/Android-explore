@@ -24,19 +24,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composeconstraint.ui.theme.ComposeConstraintTheme
-import com.example.composeconstraint.ui.theme.components.RoomEx
 import com.example.composeconstraint.ui.theme.components.canvas.CanvasEx
 import com.example.composeconstraint.ui.theme.components.card.CardEx
 import com.example.composeconstraint.ui.theme.components.constraintlayoutex.ConstraintLayoutEx
 import com.example.composeconstraint.ui.theme.components.customdialog.CustomDialog
 import com.example.composeconstraint.ui.theme.components.dialog.DialogEx
 import com.example.composeconstraint.ui.theme.components.dropdown.DropDownEx
+import com.example.composeconstraint.ui.theme.components.room.RoomEx
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -47,6 +48,12 @@ class MainActivity : ComponentActivity() {
                 var counter by remember { mutableStateOf(0) }
                 val coroutineScope = rememberCoroutineScope()
                 val scaffoldState = rememberScaffoldState()
+                var pyeong by rememberSaveable {
+                    mutableStateOf("23")
+                }
+                var squareMeter by remember {
+                    mutableStateOf((pyeong.toInt() * 3.306).toString())
+                }
 
                 Scaffold(
                     scaffoldState = scaffoldState,
@@ -123,7 +130,19 @@ class MainActivity : ComponentActivity() {
                         ) {
                             Text("더하기 $counter")
                         }
-                        RoomEx()
+                        RoomEx(
+                            pyeong,
+                            squareMeter,
+                        ) {
+                            if (it.isBlank()) {
+                                pyeong = ""
+                                squareMeter = ""
+                                return@RoomEx
+                            }
+                            val numeric = it.toFloatOrNull() ?: return@RoomEx
+                            pyeong = it
+                            squareMeter = (numeric * 3.306).toString()
+                        }
                     }
                 }
             }
@@ -148,6 +167,6 @@ fun DefaultPreview() {
         DialogEx()
         CustomDialog()
         DropDownEx()
-        RoomEx()
+        RoomEx("23", "${23 * 3.306}", {})
     }
 }
