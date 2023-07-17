@@ -61,13 +61,13 @@ fun RadioButtonRowEx(selected: Boolean, text: String, onClick: () -> Unit) {
     Row(
         Modifier.selectable(
             selected = selected,
-            onClick = { onClick.invoke() },
+            onClick = onClick,
         ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         RadioButton(
             selected = selected,
-            onClick = { onClick.invoke() },
+            onClick = onClick,
         )
         Text(text)
     }
