@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarDuration
@@ -54,6 +55,19 @@ class MainActivity : ComponentActivity() {
                                 Text("그냥 이것저것")
                             },
                         )
+                    },
+                    bottomBar = {
+                        BottomAppBar {
+                            Text("HI??")
+                            Button(onClick = {
+                                counter++
+                                coroutineScope.launch {
+                                    scaffoldState.snackbarHostState.showSnackbar(message = "바텀앱바 메세지")
+                                }
+                            }) {
+                                Text("바텀 스낵바 버튼")
+                            }
+                        }
                     },
                 ) {
                     Column(
@@ -106,7 +120,7 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.width(200.dp)
                                 .height(50.dp),
                         ) {
-                            Text("더하기")
+                            Text("더하기 $counter")
                         }
                     }
                 }
