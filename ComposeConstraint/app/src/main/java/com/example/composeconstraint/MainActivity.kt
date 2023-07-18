@@ -39,6 +39,7 @@ import com.example.composeconstraint.ui.theme.components.constraintlayoutex.Cons
 import com.example.composeconstraint.ui.theme.components.customdialog.CustomDialog
 import com.example.composeconstraint.ui.theme.components.dialog.DialogEx
 import com.example.composeconstraint.ui.theme.components.dropdown.DropDownEx
+import com.example.composeconstraint.ui.theme.components.effect.EffectEx
 import com.example.composeconstraint.ui.theme.components.room.RoomEx
 import kotlinx.coroutines.launch
 
@@ -147,6 +148,7 @@ class MainActivity : ComponentActivity() {
                         }
                         AnimationEx()
                         AnimationEx2()
+                        EffectEx(scaffoldState)
                     }
                 }
             }
