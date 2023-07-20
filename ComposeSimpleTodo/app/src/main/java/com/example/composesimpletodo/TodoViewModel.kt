@@ -3,10 +3,7 @@ package com.example.composesimpletodo
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class TodoViewModel : ViewModel() {
     val text = mutableStateOf("")
@@ -14,13 +11,8 @@ class TodoViewModel : ViewModel() {
     private val keyIncrement = MutableStateFlow(0)
 
     val onSubmit: (String) -> Unit = {
-        todoList.add(TodoData(keyIncrement.value, it))
+        todoList.add(TodoData(keyIncrement.value++, it))
         text.value = ""
-        viewModelScope.launch {
-            keyIncrement.update { key ->
-                key + 1
-            }
-        }
     }
 
     val onEdit: (Int, String) -> Unit = { key, text ->
