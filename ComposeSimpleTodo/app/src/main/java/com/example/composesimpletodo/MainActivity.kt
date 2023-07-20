@@ -22,7 +22,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -30,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.composesimpletodo.ui.theme.ComposeSimpleTodoTheme
 
 class MainActivity : ComponentActivity() {
@@ -58,47 +58,29 @@ fun DefaultPreview() {
 }
 
 @Composable
-fun TopLevel() {
-    val (text, setText) = remember { mutableStateOf("") }
-    val todoList = remember { mutableStateListOf<TodoData>() }
-    val onSubmit: (String) -> Unit = { text ->
-        val key = (todoList.lastOrNull()?.key ?: 0) + 1
-        todoList.add(TodoData(key, text))
-        setText("")
-    }
-    val onEdit: (Int, String) -> Unit = { key, text ->
-        val idx = todoList.indexOfFirst { it.key == key }
-        todoList[idx] = todoList[idx].copy(text = text)
-    }
-    val onToggle: (Int, Boolean) -> Unit = { key, checked ->
-        val idx = todoList.indexOfFirst { it.key == key }
-        todoList[idx] = todoList[idx].copy(done = checked)
-    }
-    val onDelete: (Int) -> Unit = { key ->
-        val idx = todoList.indexOfFirst { it.key == key }
-        todoList.removeAt(idx)
-    }
-
+fun TopLevel(viewModel: TodoViewModel = viewModel()) {
     Scaffold {
         Column(modifier = Modifier.padding(it)) {
             TodoInput(
-                text = text,
-                onTextChanged = setText,
-                onSubmit = onSubmit,
+                text = viewModel.text.value,
+                onTextChanged = {
+                    viewModel.text.value = it
+                },
+                onSubmit = viewModel.onSubmit,
             )
 
             LazyColumn {
                 items(
-                    items = todoList,
+                    items = viewModel.todoList,
                     key = { item ->
                         item.key
                     },
                 ) { todoData ->
                     Todo(
                         todoData = todoData,
-                        onEdit = onEdit,
-                        onToggle = onToggle,
-                        onDelete = onDelete,
+                        onEdit = viewModel.onEdit,
+                        onToggle = viewModel.onToggle,
+                        onDelete = viewModel.onDelete,
                     )
                 }
             }
