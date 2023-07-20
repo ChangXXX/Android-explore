@@ -22,6 +22,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -62,16 +63,15 @@ fun TopLevel(viewModel: TodoViewModel = viewModel()) {
     Scaffold {
         Column(modifier = Modifier.padding(it)) {
             TodoInput(
-                text = viewModel.text.value,
-                onTextChanged = {
-                    viewModel.text.value = it
-                },
+                text = viewModel.text.observeAsState("").value,
+                onTextChanged = viewModel.setText,
                 onSubmit = viewModel.onSubmit,
             )
 
+            val todos = viewModel.todoList.observeAsState(emptyList()).value
             LazyColumn {
                 items(
-                    items = viewModel.todoList,
+                    items = todos,
                     key = { item ->
                         item.key
                     },
