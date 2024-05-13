@@ -23,7 +23,7 @@ fun HomeScreen(homeState: HomeState) {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
-            val memoList = remember { memos }
+            val memoList = remember { memos.sortedBy { it.id }.toMutableStateList() }
             val onClickAction: (Int) -> Unit = {
                 homeState.showContent(
                     it
