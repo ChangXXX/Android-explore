@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import team.study.composemovieapp.ui.theme.ComposeMovieAppTheme
 import team.study.composemovieapp.ui.theme.Paddings
 import team.study.composemovieapp.ui.theme.myColors
@@ -34,6 +35,13 @@ fun SecondaryBorderlessButton(
             contentColor = MaterialTheme.colorScheme.secondary,
             disabledContainerColor = MaterialTheme.myColors.disabledSecondary,
             disabledContentColor = MaterialTheme.colorScheme.background
+        ),
+        elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = 0.dp,
+            pressedElevation = 0.dp,
+            focusedElevation = 0.dp,
+            hoveredElevation = 0.dp,
+            disabledElevation = 0.dp
         )
     ) {
         Row(
