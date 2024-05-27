@@ -1,4 +1,4 @@
-package team.study.composemovieapp.ui.components.movie.buttons
+package team.study.composemovieapp.ui.components.buttons
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
