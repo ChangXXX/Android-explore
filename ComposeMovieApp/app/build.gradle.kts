@@ -1,4 +1,6 @@
 plugins {
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
 }
@@ -21,6 +23,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -44,12 +49,17 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -69,4 +79,14 @@ dependencies {
 
     implementation(libs.coil)
     implementation(libs.coil.compose)
+
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.fragment)
+    kapt(libs.hilt.android.compiler)
+
+    implementation(libs.timber)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.adapter.rxjava2)
+    implementation(libs.okhttp.logging)
+    implementation(libs.gson)
 }
