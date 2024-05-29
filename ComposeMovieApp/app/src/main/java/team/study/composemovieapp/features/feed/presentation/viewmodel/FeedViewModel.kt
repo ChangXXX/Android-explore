@@ -8,7 +8,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import team.study.composemovieapp.features.common.repository.MovieRepository
+import team.study.composemovieapp.features.common.entity.EntityWrapper
+import team.study.composemovieapp.features.feed.domain.GetFeedCategoryUseCase
 import team.study.composemovieapp.features.feed.presentation.input.IFeedViewModelInput
 import team.study.composemovieapp.features.feed.presentation.output.FeedState
 import team.study.composemovieapp.features.feed.presentation.output.FeedUiEffect
@@ -17,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
-    private val movieRepository: MovieRepository,
+    private val getFeedCategoryUseCase: GetFeedCategoryUseCase
 ) : ViewModel(), IFeedViewModelOutput, IFeedViewModelInput {
 
     private val _feedState: MutableStateFlow<FeedState> =
@@ -29,9 +30,26 @@ class FeedViewModel @Inject constructor(
     override val feedUiEffect: SharedFlow<FeedUiEffect>
         get() = _feedUiEffect
 
-    fun getMovies() {
+    init {
+
+        fetchFeed()
+    }
+
+    private fun fetchFeed() {
         viewModelScope.launch {
-            movieRepository.getMovieList()
+            _feedState.value = FeedState.Loading
+
+            val categories = getFeedCategoryUseCase()
+            _feedState.value = when (categories) {
+                is EntityWrapper.Success -> {
+                    FeedState.Main(
+                        categories = categories.entity
+                    )
+                }
+                is EntityWrapper.Fail -> {
+                    FeedState.Failed(categories.error.message ?: "Unknown Error")
+                }
+            }
         }
     }
 
