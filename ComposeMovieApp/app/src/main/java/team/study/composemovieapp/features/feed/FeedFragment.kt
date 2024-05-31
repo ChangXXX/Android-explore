@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.material3.Text
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import team.study.composemovieapp.features.feed.presentation.screen.FeedScreen
 import team.study.composemovieapp.features.feed.presentation.viewmodel.FeedViewModel
 import team.study.composemovieapp.ui.theme.ComposeMovieAppTheme
 
@@ -21,7 +23,11 @@ class FeedFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 ComposeMovieAppTheme {
-                    Text(text = "FeedFragment")
+                    FeedScreen(
+                        feedStateHolder = viewModel.output.feedState.collectAsState(),
+                        input = viewModel.input,
+//                        buttonColor =
+                    )
                 }
             }
         }

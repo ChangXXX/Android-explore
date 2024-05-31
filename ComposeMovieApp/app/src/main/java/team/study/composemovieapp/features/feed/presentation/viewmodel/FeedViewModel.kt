@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import team.study.composemovieapp.features.common.entity.EntityWrapper
-import team.study.composemovieapp.features.feed.domain.GetFeedCategoryUseCase
+import team.study.composemovieapp.features.feed.domain.usecase.GetFeedCategoryUseCase
 import team.study.composemovieapp.features.feed.presentation.input.IFeedViewModelInput
 import team.study.composemovieapp.features.feed.presentation.output.FeedState
 import team.study.composemovieapp.features.feed.presentation.output.FeedUiEffect
@@ -20,6 +20,9 @@ import javax.inject.Inject
 class FeedViewModel @Inject constructor(
     private val getFeedCategoryUseCase: GetFeedCategoryUseCase
 ) : ViewModel(), IFeedViewModelOutput, IFeedViewModelInput {
+
+    val output: IFeedViewModelOutput = this
+    val input: IFeedViewModelInput = this
 
     private val _feedState: MutableStateFlow<FeedState> =
         MutableStateFlow(FeedState.Loading)

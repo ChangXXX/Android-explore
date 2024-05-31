@@ -6,7 +6,7 @@ import team.study.composemovieapp.features.common.entity.MovieDetailEntity
 import team.study.composemovieapp.features.common.mapper.BaseMapper
 import team.study.composemovieapp.features.common.network.model.MovieResponse
 import team.study.composemovieapp.features.feed.data.FeedConstants
-import team.study.composemovieapp.features.feed.domain.SortOrder
+import team.study.composemovieapp.features.feed.domain.enums.SortOrder
 import team.study.composemovieapp.library.storage.IStorage
 import javax.inject.Inject
 

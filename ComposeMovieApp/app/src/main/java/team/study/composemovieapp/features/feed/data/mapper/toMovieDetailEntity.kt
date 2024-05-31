@@ -4,7 +4,7 @@ import team.study.composemovieapp.features.common.entity.CategoryEntity
 import team.study.composemovieapp.features.common.entity.MovieDetailEntity
 import team.study.composemovieapp.features.common.entity.MovieFeedItemEntity
 import team.study.composemovieapp.features.common.network.model.MovieResponse
-import team.study.composemovieapp.features.feed.domain.SortOrder
+import team.study.composemovieapp.features.feed.domain.enums.SortOrder
 
 fun MovieResponse.toMovieDetailEntity(): MovieDetailEntity = MovieDetailEntity(
     actors = this.actors,
