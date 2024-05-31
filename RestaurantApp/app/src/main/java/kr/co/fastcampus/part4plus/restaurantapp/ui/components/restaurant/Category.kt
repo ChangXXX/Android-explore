@@ -9,7 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import kr.co.fastcampus.part4plus.restaurantapp.features.common.entity.CategoryEntity
+import kr.co.fastcampus.part4plus.restaurantapp.core.entity.CategoryEntity
 import kr.co.fastcampus.part4plus.restaurantapp.features.feed.presentation.input.IFeedViewModelInput
 import kr.co.fastcampus.part4plus.restaurantapp.ui.theme.Paddings
 

@@ -15,7 +15,7 @@ import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kr.co.fastcampus.part4plus.restaurantapp.BaseFragment
+import kr.co.fastcampus.part4plus.restaurantapp.core.BaseFragment
 import kr.co.fastcampus.part4plus.restaurantapp.features.detail.presentation.RestaurantDetailScreen
 import kr.co.fastcampus.part4plus.restaurantapp.features.detail.presentation.output.DetailUiEffect
 import kr.co.fastcampus.part4plus.restaurantapp.features.detail.presentation.viewmodel.RestaurantDetailViewModel
