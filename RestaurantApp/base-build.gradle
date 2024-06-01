@@ -4,9 +4,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
-
 android {
-
     compileSdk 33
 
     defaultConfig {
@@ -22,59 +20,30 @@ android {
     }
 
     buildTypes {
-        debug {
-            isDefault = true
-            debuggable true
-            minifyEnabled false
-        }
         release {
-            minifyEnabled true
-            zipAlignEnabled true
-            shrinkResources false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = '1.8'
-        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
-
-    testOptions {
-        unitTests {
-            includeAndroidResources = true
-            unitTests.returnDefaultValues = true
-        }
-    }
-
-    lint {
-        checkReleaseBuilds false
-        abortOnError false
-    }
-
-    packagingOptions {
-        jniLibs {
-            excludes += ['META-INF/*', '**/kotlin/**']
-        }
-        resources {
-            excludes += ['META-INF/*', '**/kotlin/**', '**/*.txt']
-        }
-    }
-
     buildFeatures {
-        viewBinding true
         compose true
     }
-
     composeOptions {
-        kotlinCompilerExtensionVersion "1.4.1"
+        kotlinCompilerExtensionVersion '1.4.1'
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
     }
 }
-
 
 dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:$kotlin_version"))
@@ -106,6 +75,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
+    // Test
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
