@@ -5,5 +5,5 @@ plugins {
 apply from: "../../base-build.gradle"
 
 dependencies {
-    implementation(project(":libraries:storage_contract"))
+    implementation(project(path: ':libraries:storage-contract'))
 }

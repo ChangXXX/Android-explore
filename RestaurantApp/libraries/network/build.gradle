@@ -5,8 +5,7 @@ plugins {
 apply from: "../../base-build.gradle"
 
 dependencies {
-
-    implementation(project(":libraries:network_contract"))
+    implementation(project(path: ':libraries:network-contract'))
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"

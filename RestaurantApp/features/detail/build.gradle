@@ -5,6 +5,5 @@ plugins {
 apply from: "../../base-build.gradle"
 
 dependencies {
-
-    implementation(project(":core"))
+    implementation(project(path: ':core'))
 }
