@@ -1,6 +1,7 @@
 package com.github.changxxx.dependencyinjectionexplore
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -13,9 +14,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.changxxx.dependencyinjectionexplore.ui.theme.DependencyInjectionExploreTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val TAG = MainActivity::class.java.simpleName
+
+    @Inject
+    lateinit var unScopeDiTest: UnScopeDiTest
+
+    @Inject
+    lateinit var scopeDiTest: ScopeDiTest
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -29,6 +40,9 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
+        Log.e(TAG, "UnScopeDiTest :: $unScopeDiTest")
+        Log.e(TAG, "ScopeDiTest :: $scopeDiTest")
     }
 }
 
