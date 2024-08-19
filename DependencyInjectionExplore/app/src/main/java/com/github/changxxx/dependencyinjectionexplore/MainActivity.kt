@@ -41,8 +41,8 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        Log.e(TAG, "UnScopeDiTest :: $unScopeDiTest")
-        Log.e(TAG, "ScopeDiTest :: $scopeDiTest")
+        Log.e(TAG, "activity ScopeDiTest :: $scopeDiTest")
+        Log.e(TAG, "activity UnScopeDiTest :: $unScopeDiTest")
     }
 }
 

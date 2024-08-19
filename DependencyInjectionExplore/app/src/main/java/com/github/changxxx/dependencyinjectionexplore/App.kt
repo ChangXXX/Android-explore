@@ -13,8 +13,16 @@ class App : Application() {
     @Inject
     lateinit var nameDiTest: NameDiTest
 
+    @Inject
+    lateinit var scopeDiTest: ScopeDiTest
+
+    @Inject
+    lateinit var unScopeDiTest: UnScopeDiTest
+
     override fun onCreate() {
         super.onCreate()
         Log.e(TAG, "Di Logging $nameDiTest")
+        Log.e(TAG, "app scoped Logging $scopeDiTest")
+        Log.e(TAG, "app unscoped Logging $unScopeDiTest")
     }
 }
