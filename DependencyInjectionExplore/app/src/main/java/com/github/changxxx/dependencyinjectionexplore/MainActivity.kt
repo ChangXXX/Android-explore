@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.github.changxxx.dependencyinjectionexplore.ui.theme.DependencyInjectionExploreTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import javax.inject.Named
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -27,19 +28,32 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var scopeDiTest: ScopeDiTest
 
-//    @Inject
+    @Inject
     lateinit var foo: Foo
-//
-//    @Inject
-//    lateinit var bar: Bar
+
+    @Named("Foo2")
+    @Inject
+    lateinit var foo2: Foo
+
+    lateinit var foo3: Foo
+
+    @UserQualifier(50, 180)
+    @Inject
+    lateinit var hong: User
+
+    @UserQualifier(10, 150)
+    @Inject
+    lateinit var gildong: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        assert(::foo.isInitialized)
-//        assert(::bar.isInitialized)
-//        assert(foo.bar != null)
+        Log.e(TAG, "Foo :: ${foo.id}")
+        Log.e(TAG, "Foo2 :: ${foo2.id}")
+        Log.e(TAG, "Foo3 :: ${foo3.id}")
+        Log.e(TAG, "hong :: ${hong.name}")
+        Log.e(TAG, "gildong :: ${gildong.name}")
 
         setContent {
             DependencyInjectionExploreTheme {
@@ -58,8 +72,10 @@ class MainActivity : ComponentActivity() {
     }
 
     @Inject
-    fun injectFoo(foo: Foo) {
-        this.foo = foo
+    fun injectFoo3(
+        @Foo3 foo3: Foo
+    ) {
+        this.foo3 = foo3
     }
 }
 
