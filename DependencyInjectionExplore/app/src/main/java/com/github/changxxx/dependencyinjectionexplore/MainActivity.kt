@@ -27,9 +27,20 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var scopeDiTest: ScopeDiTest
 
+//    @Inject
+    lateinit var foo: Foo
+//
+//    @Inject
+//    lateinit var bar: Bar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        assert(::foo.isInitialized)
+//        assert(::bar.isInitialized)
+//        assert(foo.bar != null)
+
         setContent {
             DependencyInjectionExploreTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -43,6 +54,12 @@ class MainActivity : ComponentActivity() {
 
         Log.e(TAG, "activity ScopeDiTest :: $scopeDiTest")
         Log.e(TAG, "activity UnScopeDiTest :: $unScopeDiTest")
+
+    }
+
+    @Inject
+    fun injectFoo(foo: Foo) {
+        this.foo = foo
     }
 }
 
