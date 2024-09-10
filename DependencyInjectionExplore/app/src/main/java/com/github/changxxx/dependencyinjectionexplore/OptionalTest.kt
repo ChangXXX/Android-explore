@@ -1,0 +1,3 @@
+package com.github.changxxx.dependencyinjectionexplore
+
+class OptionalTest

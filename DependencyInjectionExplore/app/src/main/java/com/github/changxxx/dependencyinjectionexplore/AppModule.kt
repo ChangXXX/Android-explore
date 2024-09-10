@@ -21,4 +21,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideScopedDiTest(): ScopeDiTest = ScopeDiTest()
+
+    @Provides
+    fun provideOptionalTest(): OptionalTest {
+        return OptionalTest()
+    }
 }

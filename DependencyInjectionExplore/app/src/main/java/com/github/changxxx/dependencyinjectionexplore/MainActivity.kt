@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.github.changxxx.dependencyinjectionexplore.ui.theme.DependencyInjectionExploreTheme
 import dagger.Lazy
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Optional
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Provider
@@ -50,12 +51,27 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var gildong: User
 
+    @Inject
+    lateinit var car: Car
+
+    @Inject
+    lateinit var optionalTest: Optional<OptionalTest>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        Log.e(TAG, "엔진 타입 ::: ${car.engine}")
+
         val providedFoo1 = providerFoo1.get()
         val providedFoo2 = providerFoo1.get()
         assert(providedFoo1 === providedFoo2)
+
+        assert(optionalTest != null)
+        Log.e(TAG, "Optional isPresent :: ${optionalTest.isPresent}")
+
+        val optionalTestGet = optionalTest.get()
+        Log.e(TAG, "OptionalTest :: $optionalTestGet")
 
 //        assert(::lazyFoo1.isInitialized)
 //        assert(lazyFoo1.get() != null)
