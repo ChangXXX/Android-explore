@@ -17,6 +17,7 @@ import dagger.Lazy
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import javax.inject.Named
+import javax.inject.Provider
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -35,12 +36,11 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var lazyFoo2: Lazy<Foo>
 
-
-    @Named("Foo2")
     @Inject
-    lateinit var foo2: Foo
+    lateinit var providerFoo1: Provider<Foo>
 
-    lateinit var foo3: Foo
+    @Inject
+    lateinit var providerFoo2: Provider<Foo>
 
     @UserQualifier(50, 180)
     @Inject
@@ -53,12 +53,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        assert(::lazyFoo1.isInitialized)
-        assert(lazyFoo1.get() != null)
-        assert(lazyFoo1.get() !== lazyFoo2.get())
-        Log.e(TAG, "Foo :: ${lazyFoo1.get().id}")
-        Log.e(TAG, "Foo2 :: ${foo2.id}")
-        Log.e(TAG, "Foo3 :: ${foo3.id}")
+        val providedFoo1 = providerFoo1.get()
+        val providedFoo2 = providerFoo1.get()
+        assert(providedFoo1 === providedFoo2)
+
+//        assert(::lazyFoo1.isInitialized)
+//        assert(lazyFoo1.get() != null)
+//        assert(lazyFoo1.get() !== lazyFoo2.get())
+        Log.e(TAG, "Foo :: ${lazyFoo1.get()}")
         Log.e(TAG, "hong :: ${hong.name}")
         Log.e(TAG, "gildong :: ${gildong.name}")
 
@@ -76,13 +78,6 @@ class MainActivity : ComponentActivity() {
         Log.e(TAG, "activity ScopeDiTest :: $scopeDiTest")
         Log.e(TAG, "activity UnScopeDiTest :: $unScopeDiTest")
 
-    }
-
-    @Inject
-    fun injectFoo3(
-        @Foo3 foo3: Foo
-    ) {
-        this.foo3 = foo3
     }
 }
 
