@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.changxxx.dependencyinjectionexplore.ui.theme.DependencyInjectionExploreTheme
+import dagger.Lazy
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import javax.inject.Named
@@ -29,7 +30,11 @@ class MainActivity : ComponentActivity() {
     lateinit var scopeDiTest: ScopeDiTest
 
     @Inject
-    lateinit var foo: Foo
+    lateinit var lazyFoo1: Lazy<Foo>
+
+    @Inject
+    lateinit var lazyFoo2: Lazy<Foo>
+
 
     @Named("Foo2")
     @Inject
@@ -48,8 +53,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        Log.e(TAG, "Foo :: ${foo.id}")
+        assert(::lazyFoo1.isInitialized)
+        assert(lazyFoo1.get() != null)
+        assert(lazyFoo1.get() !== lazyFoo2.get())
+        Log.e(TAG, "Foo :: ${lazyFoo1.get().id}")
         Log.e(TAG, "Foo2 :: ${foo2.id}")
         Log.e(TAG, "Foo3 :: ${foo3.id}")
         Log.e(TAG, "hong :: ${hong.name}")
