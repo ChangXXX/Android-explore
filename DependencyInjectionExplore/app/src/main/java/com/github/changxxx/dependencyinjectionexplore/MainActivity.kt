@@ -75,6 +75,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val nameManager = NameManager()
+        nameManager.loggingName(this.applicationContext)
 
         Log.e(TAG, "knife Value :: ${map1["knife"]}")
         Log.e(TAG, "gun Value :: ${map2[Gun::class.java]}")
