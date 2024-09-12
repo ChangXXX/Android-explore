@@ -57,9 +57,20 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var optionalTest: Optional<OptionalTest>
 
+//    @Inject
+//    lateinit var gun: Set<Gun>
+
+    @Inject
+    lateinit var weapons: Set<@JvmSuppressWildcards Weapon>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+//        Log.e(TAG, "gun :: ${gun}")
+        weapons.forEach { it ->
+            Log.e(TAG, "weapons :: ${it}")
+        }
 
         Log.e(TAG, "엔진 타입 ::: ${car.engine}")
 
