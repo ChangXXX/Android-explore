@@ -63,11 +63,23 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var weapons: Set<@JvmSuppressWildcards Weapon>
 
+    @Inject
+    lateinit var map1:Map<String, Long>
+
+    @Inject
+    lateinit var map2:Map<Class<*>, String>
+
+    @Inject
+    lateinit var map3:Map<WeaponEnum, String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-//        Log.e(TAG, "gun :: ${gun}")
+        Log.e(TAG, "knife Value :: ${map1["knife"]}")
+        Log.e(TAG, "gun Value :: ${map2[Gun::class.java]}")
+        Log.e(TAG, "map value :: ${map3[WeaponEnum.GUN]}")
+
         weapons.forEach { it ->
             Log.e(TAG, "weapons :: ${it}")
         }
