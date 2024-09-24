@@ -72,9 +72,13 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var map3:Map<WeaponEnum, String>
 
+    @Inject
+    lateinit var myDialog: MyDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        myDialog.show()
         val nameManager = NameManager()
         nameManager.loggingName(this.applicationContext)
 
